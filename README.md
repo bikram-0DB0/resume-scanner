@@ -1,4 +1,4 @@
-# 📄 Resume Parser
+# 📄 Resume scanner
 
 An AI-powered resume parsing application that extracts structured data from PDF resumes using natural language processing and machine learning techniques. Built with Python and Gradio for an intuitive web interface.
 
