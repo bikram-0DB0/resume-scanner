@@ -175,201 +175,389 @@ class ResumeParserApp:
 
 app = ResumeParserApp()
 
+# UNIQUE NEON DARK THEME WITH CYBERPUNK INSPIRATION
 custom_css = """
+/* Import futuristic font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap');
+
+* {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
 .gradio-container {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #0a0a2a 100%);
+    min-height: 100vh;
+}
+
+/* Animated gradient background */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .main-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #FF0066, #00F5FF, #FF0066, #7000FF);
+    background-size: 300% 300%;
+    animation: gradientShift 6s ease infinite;
     color: white;
-    padding: 2rem;
-    border-radius: 10px;
+    padding: 2.5rem;
+    border-radius: 30px;
     margin-bottom: 2rem;
     text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 245, 255, 0.3), inset 0 1px 2px rgba(255,255,255,0.2);
+    border: 1px solid rgba(0, 245, 255, 0.5);
+    position: relative;
+    overflow: hidden;
 }
 
-.feature-card {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    border: none;
-    border-radius: 15px;
+.main-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
+    background-size: 50px 50px;
+    animation: shimmer 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+.main-header h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 3em;
+    font-weight: 900;
+    text-shadow: 0 0 20px rgba(0, 245, 255, 0.8), 0 0 40px rgba(255, 0, 102, 0.6);
+    letter-spacing: 3px;
+    animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+    from { text-shadow: 0 0 20px rgba(0, 245, 255, 0.8); }
+    to { text-shadow: 0 0 40px rgba(255, 0, 102, 0.8), 0 0 60px rgba(0, 245, 255, 0.6); }
+}
+
+.main-header p {
+    font-size: 1.2em;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+/* Neon card styles */
+.cyber-card {
+    background: rgba(10, 10, 30, 0.7);
+    backdrop-filter: blur(10px);
+    border: 2px solid;
+    border-image: linear-gradient(135deg, #FF0066, #00F5FF) 1;
+    border-radius: 20px;
     padding: 1.8rem;
     margin: 1rem 0;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.feature-card h3 {
-    background: linear-gradient(45deg, #ffffff, #f0f0f0);
+.cyber-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #FF0066, #00F5FF, #FF0066);
+    border-radius: 20px;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+}
+
+.cyber-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 245, 255, 0.3);
+}
+
+.cyber-card:hover::before {
+    opacity: 0.3;
+}
+
+.cyber-card h3 {
+    font-family: 'Orbitron', monospace;
+    background: linear-gradient(135deg, #FF0066, #00F5FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 700;
-    font-size: 1.3em;
+    font-size: 1.4em;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
-.feature-card ul {
+.cyber-card ul {
     list-style: none;
     padding: 0;
 }
 
-.feature-card li {
-    color: #f9f7f7;
+.cyber-card li {
+    color: #e0e0ff;
     font-weight: 500;
     margin: 0.7rem 0;
     padding-left: 1.5rem;
     position: relative;
-    font-size: 1.05em;
-    line-height: 1.4;
 }
 
-.feature-card li:before {
-    content: "▶";
+.cyber-card li:before {
+    content: "➤";
     position: absolute;
     left: 0;
-    background: linear-gradient(45deg, #ffffff, #e0e0e0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #00F5FF;
     font-weight: bold;
+    text-shadow: 0 0 5px #00F5FF;
 }
 
-.instructions-card {
-    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-    border: none;
-    border-radius: 15px;
-    padding: 1.8rem;
-    margin: 1rem 0;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+/* Tabs styling */
+.tabs {
+    border: none !important;
 }
 
-.instructions-card h3 {
-    background: linear-gradient(45deg, #2c3e50, #34495e);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-    font-size: 1.3em;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+tab-nav {
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 15px !important;
+    padding: 5px !important;
 }
 
-.instructions-card ul {
-    list-style: none;
-    padding: 0;
+button[role="tab"] {
+    background: transparent !important;
+    color: #aaa !important;
+    font-family: 'Orbitron', monospace !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    border-radius: 10px !important;
+    margin: 0 5px !important;
 }
 
-.instructions-card li {
-    color: #34495e;
-    font-weight: 500;
-    margin: 0.7rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-    font-size: 1.05em;
-    line-height: 1.4;
+button[role="tab"][aria-selected="true"] {
+    background: linear-gradient(135deg, #FF0066, #7000FF) !important;
+    color: white !important;
+    box-shadow: 0 0 15px rgba(255, 0, 102, 0.5) !important;
 }
 
-.instructions-card li:before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: #27ae60;
-    font-weight: bold;
-}
-
-.success-text {
-    color: #28a745;
-    font-weight: bold;
-}
-
-.error-text {
-    color: #dc3545;
-    font-weight: bold;
-}
-
-.info-text {
-    color: #17a2b8;
-    font-weight: bold;
-}
-
+/* Upload area - unique holographic design */
 .upload-area {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: 3px dashed rgba(255,255,255,0.8) !important;
-    border-radius: 20px !important;
+    background: linear-gradient(135deg, rgba(255, 0, 102, 0.1), rgba(0, 245, 255, 0.1)) !important;
+    border: 2px solid !important;
+    border-image: linear-gradient(135deg, #FF0066, #00F5FF) 1 !important;
+    border-radius: 25px !important;
     padding: 3rem 2rem !important;
     text-align: center;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+    transition: all 0.4s ease;
 }
 
 .upload-area::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 1%, transparent 1%);
+    background-size: 30px 30px;
+    animation: hologram 15s linear infinite;
+}
+
+@keyframes hologram {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(100px, 100px); }
 }
 
 .upload-area:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
-    border-color: rgba(255,255,255,1) !important;
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 245, 255, 0.4);
+    border-color: #00F5FF !important;
 }
 
 .upload-area * {
     position: relative;
     z-index: 1;
-    color: #ffffff !important;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
 .upload-area label {
-    font-size: 1.3em !important;
+    font-family: 'Orbitron', monospace !important;
+    font-size: 1.2em !important;
     font-weight: 700 !important;
-    margin-bottom: 1rem !important;
+    background: linear-gradient(135deg, #FF0066, #00F5FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Button styles - futuristic */
+.gr-button {
+    background: linear-gradient(135deg, #FF0066, #7000FF) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 12px 30px !important;
+    font-family: 'Orbitron', monospace !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.gr-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.gr-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.gr-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 0, 102, 0.4);
+}
+
+/* Markdown containers with neon glow */
+.markdown-text {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid rgba(0, 245, 255, 0.3);
+    color: #e0e0ff;
+}
+
+/* Dropdown styling */
+.gr-dropdown {
+    background: rgba(10, 10, 30, 0.8) !important;
+    border: 2px solid #FF0066 !important;
+    border-radius: 10px !important;
+    color: #00F5FF !important;
+}
+
+/* File component styling */
+.gr-file {
+    background: transparent !important;
+}
+
+/* Progress bar animation */
+.gr-progress {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.gr-progress-bar {
+    background: linear-gradient(90deg, #FF0066, #00F5FF, #FF0066) !important;
+    background-size: 200% 100% !important;
+    animation: progressGradient 1.5s linear infinite !important;
+}
+
+@keyframes progressGradient {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #FF0066, #00F5FF);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #00F5FF, #FF0066);
+}
+
+/* Input fields */
+.gr-textbox, .gr-textarea {
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: 2px solid #00F5FF !important;
+    color: #00F5FF !important;
+    border-radius: 10px !important;
+}
+
+/* Alert/message styling */
+.gr-alert {
+    background: rgba(0, 0, 0, 0.7) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid #FF0066 !important;
+    color: #00F5FF !important;
+}
+
+/* Footer styling */
+.footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 245, 255, 0.3);
 }
 """
 
 def create_interface():
-    with gr.Blocks(css=custom_css, title="Resume Parser", theme=gr.themes.Soft()) as demo:
+    with gr.Blocks(css=custom_css, title="⚡ NEON PARSER | AI Resume Intelligence", theme=gr.themes.Soft()) as demo:
         
         gr.HTML("""
         <div class="main-header">
-            <h1>📄 Resume Parser</h1>
-            <p>Extract structured data from PDF resumes with 🤖 AI-powered parsing</p>
+            <h1>⚡ RESUME SCANNER</h1>
+            <p>AI-Powered Resume Intelligence | Cyberpunk Edition</p>
+            <div style="font-size: 0.8em; margin-top: 10px; opacity: 0.8;">
+                █▓▒░ Advanced Neural Extraction ░▒▓█
+            </div>
         </div>
         """)
         
-        with gr.Tabs():
+        with gr.Tabs(elem_classes="tabs"):
             
-            with gr.TabItem("📁 Upload & Process", elem_id="upload-tab"):
-                with gr.Row():
+            with gr.TabItem("🚀 UPLOAD & PROCESS", elem_id="upload-tab"):
+                with gr.Row(equal_height=False):
                     with gr.Column(scale=2):
                         gr.HTML("""
-                        <div class="instructions-card">
-                            <h3>📋 Instructions</h3>
+                        <div class="cyber-card">
+                            <h3>⚡ OPERATION PROTOCOL</h3>
                             <ul>
-                                <li>Upload one or more PDF resume files</li>
-                                <li>Click 'Process Resumes' to extract data</li>
-                                <li>Review results in the preview section</li>
-                                <li>Download extracted data in your preferred format</li>
+                                <li>UPLOAD TARGET FILES (PDF FORMAT)</li>
+                                <li>INITIATE EXTRACTION SEQUENCE</li>
+                                <li>ANALYZE EXTRACTED DATA</li>
+                                <li>EXPORT IN MULTIPLE FORMATS</li>
                             </ul>
+                            <div style="margin-top: 15px; font-size: 0.9em; color: #00F5FF;">
+                                ⚠️ OPTIMAL RESULTS WITH SELECTABLE TEXT
+                            </div>
                         </div>
                         """)
                         
                         file_upload = gr.File(
-                            label="📎 Upload PDF Resume Files",
+                            label="📎 DEPLOY PDF FILES",
                             file_count="multiple",
                             file_types=[".pdf"],
                             elem_classes="upload-area"
@@ -377,87 +565,104 @@ def create_interface():
                         
                         with gr.Row():
                             process_btn = gr.Button(
-                                "🚀 Process Resumes", 
+                                "🔥 INITIATE PROCESSING", 
                                 variant="primary", 
                                 size="lg"
                             )
                             clear_btn = gr.Button(
-                                "🗑️ Clear All", 
+                                "🗑️ PURGE SYSTEM", 
                                 variant="secondary"
                             )
                     
                     with gr.Column(scale=1):
                         gr.HTML("""
-                        <div class="feature-card">
-                            <h3>✨ Features</h3>
+                        <div class="cyber-card">
+                            <h3>✨ SYSTEM CAPABILITIES</h3>
                             <ul>
-                                <li>🔍 AI-powered text extraction</li>
-                                <li>📊 Structured data output</li>
-                                <li>📈 Real-time processing</li>
-                                <li>💾 Multiple export formats</li>
-                                <li>📋 Detailed statistics</li>
+                                <li>🧠 NEURAL TEXT EXTRACTION</li>
+                                <li>📊 STRUCTURED DATA OUTPUT</li>
+                                <li>⚡ REAL-TIME PROCESSING</li>
+                                <li>💾 MULTI-FORMAT EXPORT</li>
+                                <li>📈 ADVANCED ANALYTICS</li>
+                                <li>🔒 ENCRYPTED PROCESSING</li>
                             </ul>
+                            <div style="margin-top: 15px; font-size: 0.85em; color: #FF0066; text-align: center;">
+                                [ VERIFIED SECURE ]
+                            </div>
                         </div>
                         """)
                 
                 with gr.Row():
                     with gr.Column():
-                        summary_output = gr.Markdown(label="Processing Summary")
+                        summary_output = gr.Markdown(label="📊 PROCESSING REPORT", elem_classes="markdown-text")
                         
-            with gr.TabItem("📊 Results & Preview", elem_id="results-tab"):
+            with gr.TabItem("📊 DATA PREVIEW", elem_id="results-tab"):
                 with gr.Row():
                     with gr.Column(scale=2):
                         preview_output = gr.Markdown(
-                            label="Data Preview",
-                            value="Upload and process files to see preview here..."
+                            label="🔍 EXTRACTION PREVIEW",
+                            value="⚡ AWAITING DATA UPLOAD...",
+                            elem_classes="markdown-text"
                         )
                     
                     with gr.Column(scale=1):
                         with gr.Group():
-                            gr.HTML("<h3>📥 Download Results</h3>")
+                            gr.HTML("""
+                            <div class="cyber-card" style="text-align: center;">
+                                <h3>📥 EXPORT INTERFACE</h3>
+                                <div style="font-size: 2em; margin: 10px 0;">⬇️</div>
+                            </div>
+                            """)
                             
                             format_dropdown = gr.Dropdown(
                                 choices=["CSV", "Excel", "JSON"],
                                 value="Excel",
-                                label="Select Format"
+                                label="SELECT OUTPUT FORMAT"
                             )
                             
                             download_btn = gr.Button(
-                                "📥 Generate Download",
+                                "💾 GENERATE EXPORT",
                                 variant="primary"
                             )
                             
                             download_file = gr.File(
-                                label="Download File",
+                                label="DOWNLOAD READY",
                                 visible=False
                             )
             
-            with gr.TabItem("📈 Statistics", elem_id="stats-tab"):
+            with gr.TabItem("📈 ADVANCED STATISTICS", elem_id="stats-tab"):
                 with gr.Row():
                     with gr.Column():
                         stats_output = gr.Markdown(
-                            label="Detailed Statistics",
-                            value="Process some resumes to see detailed statistics..."
+                            label="📊 QUANTUM ANALYSIS",
+                            value="⚡ PROCESS RESUMES TO GENERATE STATISTICS...",
+                            elem_classes="markdown-text"
                         )
                         
                         refresh_stats_btn = gr.Button(
-                            "🔄 Refresh Statistics",
+                            "🔄 REFRESH DATA MATRIX",
                             variant="secondary"
                         )
             
-            with gr.TabItem("⚠️ Error Log", elem_id="error-tab"):
+            with gr.TabItem("⚠️ ERROR LOG", elem_id="error-tab"):
                 error_output = gr.Markdown(
-                    label="Error Messages",
-                    value="No errors to display."
+                    label="🔴 SYSTEM LOGS",
+                    value="✅ ALL SYSTEMS OPERATIONAL",
+                    elem_classes="markdown-text"
                 )
         
         gr.HTML("""
-        <div style="text-align: center; margin-top: 2rem; padding: 1rem; border-top: 1px solid #eee;">
-            <p>💡 <strong>Tips:</strong> For best results, ensure your PDF files contain selectable text (not scanned images)</p>
-            <p>🔧 Built with Gradio • 🤖 Powered by AI</p>
+        <div class="footer">
+            <div style="font-family: 'Orbitron', monospace; letter-spacing: 2px;">
+                ⚡ POWERED BY ADVANCED AI ALGORITHMS | ENTERPRISE-GRADE SECURITY ⚡
+            </div>
+            <div style="font-size: 0.8em; margin-top: 10px; opacity: 0.6;">
+                █▓▒░ VERSION 2.0 | QUANTUM PARSING ENGINE ░▒▓█
+            </div>
         </div>
         """)
         
+        # Event handlers
         process_btn.click(
             fn=app.process_files,
             inputs=[file_upload],
@@ -481,8 +686,8 @@ def create_interface():
         )
         
         clear_btn.click(
-            fn=lambda: (None, "", "", "", "Process some resumes to see detailed statistics..."),
-            outputs=[file_upload, summary_output, preview_output, error_output, stats_output]
+            fn=lambda: (None, "⚡ AWAITING DATA UPLOAD...", "✅ ALL SYSTEMS OPERATIONAL", "⚡ PROCESS RESUMES TO GENERATE STATISTICS..."),
+            outputs=[file_upload, preview_output, error_output, stats_output]
         )
         
         process_btn.click(
